@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>843465605951-t5mmml78oq6lgtklsjrc4qe3v39crror.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.843465605951-t5mmml78oq6lgtklsjrc4qe3v39crror</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCcxdHt-6urIqb4xDgz1bHw4uur54bGypM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>843465605951</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.farid.socialNetworkApp</string>
+	<key>PROJECT_ID</key>
+	<string>fluttershare-fcf6c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fluttershare-fcf6c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:843465605951:ios:8cde622d3e35fa1747098a</string>
+	<key>DATABASE_URL</key>
+	<string>https://fluttershare-fcf6c.firebaseio.com</string>
+</dict>
+</plist>
