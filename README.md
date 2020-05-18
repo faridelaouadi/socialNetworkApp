@@ -1,4 +1,4 @@
 
-![alt text]("register.png")
+![alt text](register.png)
 
-![alt text]("login.png")
+![alt text](login.png)
