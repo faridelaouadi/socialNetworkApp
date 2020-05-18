@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "843465605951",
+    "firebase_url": "https://fluttershare-fcf6c.firebaseio.com",
+    "project_id": "fluttershare-fcf6c",
+    "storage_bucket": "fluttershare-fcf6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843465605951:android:623245069acf73ea47098a",
+        "android_client_info": {
+          "package_name": "com.farid.socialNetworkApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843465605951-ismpjcq0g86c58rh68gftojmm4jf8bae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farid.socialNetworkApp",
+            "certificate_hash": "45296e2e85669718f115ca5c3469c3f4fc6eb244"
+          }
+        },
+        {
+          "client_id": "843465605951-8i5eeq1cptkgufjjt7mq5uk3eto781er.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe8t97V4rviH2veOxCRlwhTohidmS-t_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843465605951-8i5eeq1cptkgufjjt7mq5uk3eto781er.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "843465605951-t5mmml78oq6lgtklsjrc4qe3v39crror.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.farid.socialNetworkApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
