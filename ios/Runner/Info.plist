@@ -32,8 +32,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    
 	<key>CFBundleURLTypes</key>
     <array>
+        
     	<dict>
     		<key>CFBundleTypeRole</key>
     		<string>Editor</string>
@@ -44,7 +46,27 @@
     			<string>com.googleusercontent.apps.843465605951-t5mmml78oq6lgtklsjrc4qe3v39crror</string>
     		</array>
     	</dict>
+        
+        <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb935033263602772</string>
+        </array>
+        </dict>
+        
     </array>
+    <key>FacebookAppID</key>
+    <string>935033263602772</string>
+    <key>FacebookDisplayName</key>
+    <string>flutterShare</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+    
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

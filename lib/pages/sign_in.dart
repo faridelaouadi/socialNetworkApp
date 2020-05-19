@@ -127,8 +127,11 @@ class _SignInState extends State<SignIn> {
                       )
                   ),
                   GestureDetector(
-                      onTap: () {
-                        print("Facebook auth!!!");
+                      onTap: () async {
+                        dynamic authResult = await _auth.signInWithFacebook();
+                        if(authResult){
+                          print("User has signed into facebook so the firebase user should change aswell. ");
+                        }
                       },
                       child: CircleAvatar(
                         backgroundImage: NetworkImage("https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512"),

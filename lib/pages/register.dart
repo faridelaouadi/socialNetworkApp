@@ -84,11 +84,6 @@ class _RegisterState extends State<Register> {
                       validator: (val) => val != password ? "Passwords needs to match":null,
                       decoration: kTextFieldDecoration.copyWith(labelText: "Confirm Password"),
                       obscureText: true,
-                      onChanged: (val){
-                        setState(() {
-                          password = val;
-                        });
-                      },
                     ),
                     SizedBox(height: 20),
                     Text(error),
