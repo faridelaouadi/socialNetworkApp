@@ -8,6 +8,13 @@ class Upload extends StatefulWidget {
 class _UploadState extends State<Upload> {
   @override
   Widget build(BuildContext context) {
-    return Text("Upload");
+    return Scaffold(
+      body: Center(
+        child: Text(
+          "Access Camera",
+          style: TextStyle(fontSize: 40),
+        ),
+      ),
+    );
   }
 }

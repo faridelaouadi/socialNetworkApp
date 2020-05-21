@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta/widgets/header.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -8,7 +9,15 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
-    return Text('Search');
+    return Scaffold(
+      appBar: header(isAppTitle: true),
+      body: Center(
+        child: Text(
+          "Search page",
+          style: TextStyle(fontSize: 40),
+        ),
+      ),
+    );
   }
 }
 

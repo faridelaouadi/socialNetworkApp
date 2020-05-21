@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta/widgets/header.dart';
 
 class ActivityFeed extends StatefulWidget {
   @override
@@ -8,7 +9,15 @@ class ActivityFeed extends StatefulWidget {
 class _ActivityFeedState extends State<ActivityFeed> {
   @override
   Widget build(BuildContext context) {
-    return Text('Activity Feed');
+    return Scaffold(
+      appBar: header(isAppTitle: true),
+      body: Center(
+        child: Text(
+          "Activity feed page",
+          style: TextStyle(fontSize: 40),
+        ),
+      ),
+    );
   }
 }
 

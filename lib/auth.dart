@@ -1,45 +1,52 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:insta/pages/create_account.dart';
 
-
-class AuthService{
-
+class AuthService {
+  BuildContext context;
+  AuthService({this.context});
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FacebookLogin fbLogin = new FacebookLogin();
+  final userRef = Firestore.instance.collection("users");
 
   //auth change user stream
-  Stream<FirebaseUser> get user{
+  Stream<FirebaseUser> get user {
     return _auth.onAuthStateChanged;
   }
 
   Future<bool> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount googleSignInAccount =
+          await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+          await googleSignInAccount.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.getCredential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
 
-      final AuthResult authResult = await _auth.signInWithCredential(credential);
+      final AuthResult authResult =
+          await _auth.signInWithCredential(credential);
       final FirebaseUser user = authResult.user;
 
-
       return true;
-    }catch (e) {
+    } catch (e) {
       print(e.toString());
       return false;
     }
   }
+
   Future signOut() async {
     try {
       await googleSignIn.signOut();
       await fbLogin.logOut();
-    }catch (e) {
+    } catch (e) {
       print(e);
     } finally {
       await _auth.signOut();
@@ -48,30 +55,35 @@ class AuthService{
   //sign in and out email password
 
   Future signInEmailPassword(String email, String password) async {
-    try{
-      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
   //sign in and out facebook
 
   Future signInWithFacebook() async {
-    try{
-      final FacebookLoginResult facebookLoginResult = await fbLogin.logIn(['email', 'public_profile']);
+    try {
+      final FacebookLoginResult facebookLoginResult =
+          await fbLogin.logIn(['email', 'public_profile']);
       switch (facebookLoginResult.status) {
         case FacebookLoginStatus.error:
           return false;
         case FacebookLoginStatus.cancelledByUser:
           return false;
         case FacebookLoginStatus.loggedIn:
-          FacebookAccessToken facebookAccessToken = facebookLoginResult.accessToken;
-          AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken: facebookAccessToken.token);
-          FirebaseUser fbUser = (await _auth.signInWithCredential(authCredential)).user;
+          FacebookAccessToken facebookAccessToken =
+              facebookLoginResult.accessToken;
+          AuthCredential authCredential = FacebookAuthProvider.getCredential(
+              accessToken: facebookAccessToken.token);
+          FirebaseUser fbUser =
+              (await _auth.signInWithCredential(authCredential)).user;
           return true;
       }
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
@@ -79,19 +91,12 @@ class AuthService{
   //sign in and out twitter
   //register email and password
   Future registerEmailPassword(String email, String password) async {
-    try{
-      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    try {
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       return true;
-    }catch(e){
+    } catch (e) {
       return false;
     }
   }
-
-
 }
-
-
-
-
-
-
