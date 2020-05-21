@@ -66,8 +66,8 @@ class _SignInState extends State<SignIn> {
                             ),
                             validator: (val) =>
                                 val.isEmpty ? "Enter an email" : null,
-                            decoration: kTextFieldDecoration.copyWith(
-                                labelText: "Email Address"),
+                            decoration: kTextFieldDecorationForRainbowBackground
+                                .copyWith(labelText: "Email Address"),
                             onChanged: (val) {
                               setState(() {
                                 email = val;
@@ -81,8 +81,8 @@ class _SignInState extends State<SignIn> {
                             ),
                             validator: (val) =>
                                 val.isEmpty ? "Enter a password" : null,
-                            decoration: kTextFieldDecoration.copyWith(
-                                labelText: "Password"),
+                            decoration: kTextFieldDecorationForRainbowBackground
+                                .copyWith(labelText: "Password"),
                             obscureText: true,
                             onChanged: (val) {
                               setState(() {

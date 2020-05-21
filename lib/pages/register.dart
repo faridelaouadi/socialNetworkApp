@@ -64,8 +64,8 @@ class _RegisterState extends State<Register> {
                             ),
                             validator: (val) =>
                                 val.isEmpty ? "Don't leave it empty" : null,
-                            decoration: kTextFieldDecoration.copyWith(
-                                labelText: "Email Address"),
+                            decoration: kTextFieldDecorationForRainbowBackground
+                                .copyWith(labelText: "Email Address"),
                             onChanged: (val) {
                               setState(() {
                                 email = val;
@@ -80,8 +80,8 @@ class _RegisterState extends State<Register> {
                             validator: (val) => val.length < 6
                                 ? "Password needs to be atleast 6 chars"
                                 : null,
-                            decoration: kTextFieldDecoration.copyWith(
-                                labelText: "Password"),
+                            decoration: kTextFieldDecorationForRainbowBackground
+                                .copyWith(labelText: "Password"),
                             obscureText: true,
                             onChanged: (val) {
                               setState(() {
@@ -97,8 +97,8 @@ class _RegisterState extends State<Register> {
                             validator: (val) => val != password
                                 ? "Passwords needs to match"
                                 : null,
-                            decoration: kTextFieldDecoration.copyWith(
-                                labelText: "Confirm Password"),
+                            decoration: kTextFieldDecorationForRainbowBackground
+                                .copyWith(labelText: "Confirm Password"),
                             obscureText: true,
                           ),
                           SizedBox(height: 20),
