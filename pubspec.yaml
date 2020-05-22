@@ -26,10 +26,16 @@ dependencies:
   cloud_firestore: ^0.13.5
   firebase_auth: ^0.16.0
   google_sign_in: ^4.4.6
-
+  flutter_svg: ^0.17.4
   provider: 4.0.0
   flutter_spinkit: ^4.1.2+1
   flutter_facebook_login: ^3.0.0
+  cached_network_image: ^2.2.0+1
+  image_picker: ^0.6.6+4
+  path_provider: ^1.6.9
+  uuid: ^2.0.4
+  firebase_storage: ^3.1.5
+  geolocator: ^5.3.1
 
 dev_dependencies:
   flutter_test:

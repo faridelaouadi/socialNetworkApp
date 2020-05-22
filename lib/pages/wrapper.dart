@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:insta/models/user.dart';
 import 'package:insta/pages/authenticate.dart';
@@ -8,6 +9,8 @@ import 'package:insta/pages/home.dart';
 import 'package:provider/provider.dart';
 
 final userRef = Firestore.instance.collection("users");
+final StorageReference storageRef = FirebaseStorage.instance.ref();
+final postsRef = Firestore.instance.collection("posts");
 User currentUser;
 
 class Wrapper extends StatefulWidget {
@@ -35,6 +38,7 @@ class _WrapperState extends State<Wrapper> {
         userAccountChecked = true;
       }
       if (accountCreated == true) {
+        accountHasBeenCreated(user.uid);
         return Home();
       } else {
         return CreateAccount(
