@@ -7,6 +7,7 @@ import 'package:insta/pages/search.dart';
 import 'package:insta/pages/timeline.dart';
 import 'package:insta/pages/upload.dart';
 import 'package:provider/provider.dart';
+import 'wrapper.dart';
 
 import '../auth.dart';
 
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
           ActivityFeed(),
           Upload(),
           Search(),
-          Profile(),
+          Profile(profileID: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,

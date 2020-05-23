@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-header({bool isAppTitle, String titleText, Icon leading, Function onPress}) {
+header(
+    {bool isAppTitle,
+    String titleText,
+    Icon leading,
+    Function onPress,
+    List<Widget> trailing}) {
   return AppBar(
     title: Text(
       isAppTitle ? "Instagram" : titleText,
@@ -17,5 +22,6 @@ header({bool isAppTitle, String titleText, Icon leading, Function onPress}) {
             onPressed: onPress,
           )
         : null,
+    actions: trailing,
   );
 }
