@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 final userRef = Firestore.instance.collection("users");
 final StorageReference storageRef = FirebaseStorage.instance.ref();
 final postsRef = Firestore.instance.collection("posts");
+final commentsRef = Firestore.instance.collection("comments");
+final activityFeedRef = Firestore.instance.collection("feed");
 User currentUser;
 
 class Wrapper extends StatefulWidget {

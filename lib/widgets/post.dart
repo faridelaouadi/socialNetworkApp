@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:insta/models/user.dart';
+import 'package:insta/pages/comments.dart';
 import 'package:insta/pages/wrapper.dart';
 import 'package:insta/widgets/custom_image.dart';
 import 'package:insta/widgets/progress.dart';
@@ -140,6 +141,7 @@ class _PostState extends State<Post> {
           .collection("userPosts")
           .document(postID)
           .updateData({'likes.$currentUserID': false});
+      removeLikeFromActivityFeed();
       setState(() {
         likeCount -= 1;
         alreadyLiked = false;
@@ -151,6 +153,7 @@ class _PostState extends State<Post> {
           .collection("userPosts")
           .document(postID)
           .updateData({'likes.$currentUserID': true});
+      addLikeToActivityFeed();
       setState(() {
         likeCount += 1;
         alreadyLiked = true;
@@ -219,7 +222,12 @@ class _PostState extends State<Post> {
                 size: 28,
                 color: Colors.blue,
               ),
-              onTap: () => print("Show the comments!"),
+              onTap: () => showComments(
+                context,
+                postID: postID,
+                ownerID: ownerID,
+                mediaURL: mediaURL,
+              ),
             ),
           ],
         ),
@@ -253,5 +261,48 @@ class _PostState extends State<Post> {
         ),
       ],
     );
+  }
+
+  showComments(BuildContext context,
+      {String postID, String ownerID, String mediaURL}) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Comments(
+          postID: postID, postOwnerID: ownerID, postMediaURL: mediaURL);
+    }));
+  }
+
+  addLikeToActivityFeed() {
+    bool isPostOwner = currentUserID == ownerID;
+    if (!isPostOwner) {
+      activityFeedRef
+          .document(ownerID)
+          .collection("feedItems")
+          .document(postID)
+          .setData({
+        "type": "like",
+        "username": currentUser.username,
+        "userID": currentUser.id,
+        "userProfileImg": currentUser.photoURL,
+        "postID": postID,
+        "mediaURL": mediaURL,
+        "timeStamp": DateTime.now()
+      });
+    }
+  }
+
+  removeLikeFromActivityFeed() {
+    bool isPostOwner = currentUserID == ownerID;
+    if (!isPostOwner) {
+      activityFeedRef
+          .document(ownerID)
+          .collection("feedItems")
+          .document(postID)
+          .get()
+          .then((doc) {
+        if (doc.exists) {
+          doc.reference.delete();
+        }
+      });
+    }
   }
 }
