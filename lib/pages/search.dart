@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insta/models/user.dart';
 import 'package:insta/widgets/progress.dart';
 import 'wrapper.dart';
+import 'activity_feed.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -120,7 +121,7 @@ class UserResult extends StatelessWidget {
       child: Column(
         children: <Widget>[
           GestureDetector(
-            onTap: () => print("pressed"),
+            onTap: () => showProfile(context, profileID: user.id),
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.grey,

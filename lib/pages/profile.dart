@@ -55,7 +55,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         appBar: header(
           isAppTitle: false,
-          titleText: currentUser.username,
+          titleText: "currentUser.username",
           trailing: [
             Padding(
               padding: const EdgeInsets.only(right: 20.0),
@@ -192,6 +192,7 @@ class _ProfileState extends State<Profile> {
       return buildButton(text: "Edit Profile", function: editProfile);
     } else {
       //i am viewing someone else's profile
+      return Text("button to follow");
     }
   }
 
