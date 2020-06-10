@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:insta/models/user.dart';
 import 'package:insta/pages/wrapper.dart';
 import 'package:insta/widgets/progress.dart';
+
+import '../auth.dart';
 
 class EditProfile extends StatefulWidget {
   final String currentUserID;
@@ -50,19 +54,9 @@ class _EditProfileState extends State<EditProfile> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            "Edit Profile",
+            "Edit Profile: ${user.username}",
             style: TextStyle(color: Colors.black),
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                Icons.done,
-                size: 30,
-                color: Colors.green,
-              ),
-            )
-          ],
         ),
         body: isLoading
             ? circularProgress()
@@ -97,11 +91,25 @@ class _EditProfileState extends State<EditProfile> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                        RaisedButton(
+                          onPressed: logOut,
+                          child: Text(
+                            "Log Out",
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ],
                     ),
                   )
                 ],
               ));
+  }
+
+  logOut() {
+    final AuthService _auth = AuthService(context: context);
+    _auth.signOut();
+    Navigator.pop(context);
   }
 
   buildDisplayNameField() {
@@ -163,9 +171,12 @@ class _EditProfileState extends State<EditProfile> {
         "bio": bioController.text,
       });
       SnackBar snackBar = SnackBar(
-        content: Text("Profile updated!"),
+        content: Text("Profile updated..."),
       );
       scaffoldKey.currentState.showSnackBar(snackBar);
+      Timer(Duration(seconds: 1), () {
+        Navigator.pop(context);
+      });
     }
   }
 }

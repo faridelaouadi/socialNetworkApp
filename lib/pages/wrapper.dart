@@ -13,6 +13,8 @@ final StorageReference storageRef = FirebaseStorage.instance.ref();
 final postsRef = Firestore.instance.collection("posts");
 final commentsRef = Firestore.instance.collection("comments");
 final activityFeedRef = Firestore.instance.collection("feed");
+final followersRef = Firestore.instance.collection("followers");
+final followingRef = Firestore.instance.collection("following");
 User currentUser;
 
 class Wrapper extends StatefulWidget {

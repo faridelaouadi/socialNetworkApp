@@ -102,12 +102,14 @@ class ActivityFeedItem extends StatelessWidget {
   }
 
   showPost(context) {
+    print("user ID is $userID");
+    print("Post id is $postID");
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => PostScreen(
                   postID: postID,
-                  userID: userID,
+                  userID: currentUser.id,
                 )));
   }
 

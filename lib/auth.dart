@@ -43,6 +43,7 @@ class AuthService {
   }
 
   Future signOut() async {
+    print("we are signing you out");
     try {
       await googleSignIn.signOut();
       await fbLogin.logOut();

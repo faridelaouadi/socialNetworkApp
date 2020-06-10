@@ -21,8 +21,11 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool isFollowing = false;
   bool isLoading = false;
   int postCount;
+  int followersCount;
+  int followingCount;
   List<Post> posts = [];
   String postOrientation = "Grid";
 
@@ -31,6 +34,40 @@ class _ProfileState extends State<Profile> {
     // TODO: implement initState
     super.initState();
     getProfilePosts();
+    getFollowers();
+    getFollowing();
+    checkFollowing();
+  }
+
+  getFollowers() async {
+    QuerySnapshot snapshot = await followersRef
+        .document(widget.profileID)
+        .collection("userFollowers")
+        .getDocuments();
+    setState(() {
+      followersCount = snapshot.documents.length;
+    });
+  }
+
+  getFollowing() async {
+    QuerySnapshot snapshot = await followingRef
+        .document(widget.profileID)
+        .collection("userFollowing")
+        .getDocuments();
+    setState(() {
+      followingCount = snapshot.documents.length;
+    });
+  }
+
+  checkFollowing() async {
+    DocumentSnapshot doc = await followersRef
+        .document(widget.profileID)
+        .collection("userFollowers")
+        .document(currentUser.id)
+        .get();
+    setState(() {
+      isFollowing = doc.exists;
+    });
   }
 
   void getProfilePosts() async {
@@ -51,41 +88,40 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _auth = AuthService(context: context);
     return Scaffold(
-        appBar: header(
-          isAppTitle: false,
-          titleText: "currentUser.username",
-          trailing: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: Icon(Icons.exit_to_app),
-                color: Colors.black,
-                onPressed: () => _auth.signOut(),
-              ),
-            ),
-          ],
-          onPress: _auth.signOut,
-        ),
+//        appBar: header(
+//          isAppTitle: false,
+//          titleText: currentUser.username,
+//          trailing: [
+//            Padding(
+//              padding: const EdgeInsets.only(right: 20.0),
+//              child: IconButton(
+//                icon: Icon(Icons.exit_to_app),
+//                color: Colors.black,
+//                onPressed: () => _auth.signOut(),
+//              ),
+//            ),
+//          ],
+//          onPress: _auth.signOut,
+//        ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 15,
+      padding: const EdgeInsets.symmetric(
+        vertical: 15,
+      ),
+      child: ListView(
+        children: <Widget>[
+          buildProfileHeader(),
+          Divider(
+            height: 0.0,
           ),
-          child: ListView(
-            children: <Widget>[
-              buildProfileHeader(),
-              Divider(
-                height: 0.0,
-              ),
-              buildTogglePostOrientation(),
-              Divider(
-                height: 0.0,
-              ),
-              buildProfilePosts(),
-            ],
+          buildTogglePostOrientation(),
+          Divider(
+            height: 0.0,
           ),
-        ));
+          buildProfilePosts(),
+        ],
+      ),
+    ));
   }
 
   buildProfileHeader() {
@@ -100,6 +136,17 @@ class _ProfileState extends State<Profile> {
           padding: EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
+              Text(
+                user.username,
+                style: TextStyle(fontSize: 20),
+              ),
+              Divider(
+                color: Colors.black,
+                height: 40,
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
               Row(
                 children: <Widget>[
                   CircleAvatar(
@@ -117,8 +164,8 @@ class _ProfileState extends State<Profile> {
                           children: <Widget>[
                             buildCountColumn(
                                 "posts", postCount != null ? postCount : 0),
-                            buildCountColumn("followers", 0),
-                            buildCountColumn("following", 0),
+                            buildCountColumn("followers", followersCount),
+                            buildCountColumn("following", followingCount),
                           ],
                         ),
                         Row(
@@ -188,12 +235,83 @@ class _ProfileState extends State<Profile> {
 
   buildProfileButton() {
     if (currentUser.id == widget.profileID) {
-      //i am viweing my own profile
-      return buildButton(text: "Edit Profile", function: editProfile);
-    } else {
+      return buildButton(text: "Settings", function: editProfile);
+    } else if (isFollowing) {
       //i am viewing someone else's profile
-      return Text("button to follow");
+      return buildButton(text: "Unfollow", function: handleUnfollowUser);
+    } else if (!isFollowing) {
+      return buildButton(text: "Follow", function: handleFollowUser);
     }
+  }
+
+  handleUnfollowUser() {
+    setState(() {
+      isFollowing = false;
+    });
+    // make authenticated user a follower of the other user (update their followers)
+    followersRef
+        .document(widget.profileID)
+        .collection("userFollowers")
+        .document(currentUser.id)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    //put other user in our following (update my following)
+    followingRef
+        .document(currentUser.id)
+        .collection("userFollowing")
+        .document(widget.profileID)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    //add activity feed item for that user to notify them taht we are following them
+    activityFeedRef
+        .document(widget.profileID)
+        .collection("feedItems")
+        .document(currentUser.id)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+  }
+
+  handleFollowUser() {
+    setState(() {
+      isFollowing = true;
+    });
+    // make authenticated user a follower of the other user (update their followers)
+    followersRef
+        .document(widget.profileID)
+        .collection("userFollowers")
+        .document(currentUser.id)
+        .setData({});
+    //put other user in our following (update my following)
+    followingRef
+        .document(currentUser.id)
+        .collection("userFollowing")
+        .document(widget.profileID)
+        .setData({});
+    //add activity feed item for that user to notify them taht we are following them
+    activityFeedRef
+        .document(widget.profileID)
+        .collection("feedItems")
+        .document(currentUser.id)
+        .setData({
+      "type": "follow",
+      "ownerID": widget.profileID,
+      "username": currentUser.username,
+      "userID": currentUser.id,
+      "userProfileImg": currentUser.photoURL,
+      "timeStamp": DateTime.now(),
+    });
   }
 
   buildButton({
@@ -209,12 +327,15 @@ class _ProfileState extends State<Profile> {
           height: 27,
           child: Text(
             text,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: isFollowing ? Colors.black : Colors.white,
+                fontWeight: FontWeight.bold),
           ),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Colors.blue,
-              border: Border.all(color: Colors.blue),
+              color: isFollowing ? Colors.white : Colors.blue,
+              border:
+                  Border.all(color: isFollowing ? Colors.grey : Colors.blue),
               borderRadius: BorderRadius.circular(5)),
         ),
       ),
