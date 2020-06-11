@@ -15,6 +15,7 @@ final commentsRef = Firestore.instance.collection("comments");
 final activityFeedRef = Firestore.instance.collection("feed");
 final followersRef = Firestore.instance.collection("followers");
 final followingRef = Firestore.instance.collection("following");
+final timelineRef = Firestore.instance.collection("timeline");
 User currentUser;
 
 class Wrapper extends StatefulWidget {

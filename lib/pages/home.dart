@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insta/models/user.dart';
 import 'package:insta/pages/activity_feed.dart';
 import 'package:insta/pages/profile.dart';
 import 'package:insta/pages/search.dart';
@@ -41,7 +42,9 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          Timeline(),
+          Timeline(
+            currentUser: currentUser,
+          ),
           ActivityFeed(),
           Upload(),
           Search(),

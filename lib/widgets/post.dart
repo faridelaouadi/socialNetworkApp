@@ -112,6 +112,8 @@ class _PostState extends State<Post> {
           return circularProgress();
         }
         User user = User.fromDocument(snapshot.data);
+        bool isPostOwner = user.id == ownerID;
+        print(isPostOwner);
         return ListTile(
           leading: CircleAvatar(
             backgroundImage: CachedNetworkImageProvider(user.photoURL),
@@ -128,9 +130,83 @@ class _PostState extends State<Post> {
             ),
           ),
           subtitle: Text(location),
+          trailing: isPostOwner
+              ? IconButton(
+                  onPressed: () => handleDeletePost(context),
+                  icon: Icon(Icons.delete_forever),
+                )
+              : Text(""),
         );
       },
     );
+  }
+
+  deletePost() async {
+    //delete the post from the database
+    postsRef
+        .document(ownerID)
+        .collection("userPosts")
+        .document(postID)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    //delete the image from storage
+    storageRef.child("post_$postID.jpg").delete();
+    //delete activity feed notifications
+    QuerySnapshot activityFeedSnapshot = await activityFeedRef
+        .document(ownerID)
+        .collection("feedItems")
+        .where("postID", isEqualTo: postID)
+        .getDocuments();
+    activityFeedSnapshot.documents.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+
+    //delete all comments linked with the post
+    QuerySnapshot commentsSnapshot = await commentsRef
+        .document(postID)
+        .collection('comments')
+        .getDocuments();
+
+    commentsSnapshot.documents.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    Navigator.pop(context);
+  }
+
+  handleDeletePost(BuildContext parentContext) {
+    return showDialog(
+        context: parentContext,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("Remove this post?"),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context);
+                  deletePost();
+                },
+                child: Text(
+                  "Delete",
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Cancel",
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   handleLike() {
