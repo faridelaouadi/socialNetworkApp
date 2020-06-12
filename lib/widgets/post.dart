@@ -130,12 +130,6 @@ class _PostState extends State<Post> {
             ),
           ),
           subtitle: Text(location),
-          trailing: isPostOwner
-              ? IconButton(
-                  onPressed: () => handleDeletePost(context),
-                  icon: Icon(Icons.delete_forever),
-                )
-              : Text(""),
         );
       },
     );

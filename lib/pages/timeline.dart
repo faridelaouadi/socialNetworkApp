@@ -38,7 +38,7 @@ class _TimelineState extends State<Timeline> {
 
   buildTimeline() {
     if (posts == null) {
-      return CircularProgressIndicator();
+      return Center(child: CircularProgressIndicator());
     } else if (posts.isEmpty) {
       return Text("no posts to show");
     }

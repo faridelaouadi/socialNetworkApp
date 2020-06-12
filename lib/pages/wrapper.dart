@@ -43,7 +43,7 @@ class _WrapperState extends State<Wrapper> {
         userAccountChecked = true;
       }
       if (accountCreated == true) {
-        accountHasBeenCreated(user.uid);
+        createCurrentUser(user.uid);
         return Home();
       } else {
         return CreateAccount(
@@ -52,6 +52,10 @@ class _WrapperState extends State<Wrapper> {
             user: user);
       }
     }
+  }
+
+  createCurrentUser(userID) async {
+    await accountHasBeenCreated(userID);
   }
 
   accountHasBeenCreated(userID) async {
